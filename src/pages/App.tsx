@@ -146,29 +146,6 @@ const HeaderWrapper = styled.div`
           }
       }
   }
-  .menu-icon{
-      .gradient-btn{
-          color: white;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          border: none;
-          padding: 10px 27px;
-          cursor: pointer;
-          span{
-              margin-left: 5px;
-              text-transform: uppercase;
-              font-weight: bold;
-          }
-      }
-      .social-icons{
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 20px 0;
-      }
-  }
 `
 
 const Marginer = styled.div`
@@ -193,24 +170,24 @@ export default function App() {
             <Polling />
             <Web3ReactManager>
               <Switch>
-                <Route exact strict path="/farm" component={FarmListPage} />
-                <Route exact strict path="/farm/:poolId" component={Farm} />
+                {/* <Route exact strict path="/farm" component={FarmListPage} /> */}
+                {/* <Route exact strict path="/farm/:poolId" component={Farm} /> */}
 
-                <Route exact strict path="/assets" component={AssetsListPage} />
+                {/* <Route exact strict path="/assets" component={AssetsListPage} /> */}
 
-                <Route exact strict path="/stake" component={StakingPage} />
+                {/* <Route exact strict path="/stake" component={StakingPage} /> */}
 
-                <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
+                {/* <Route exact strict path="/send" component={RedirectPathToSwapOnly} /> */}
                 <Route exact strict path="/swap/:outputCurrency" component={RedirectToSwap} />
                 <Route exact strict path="/swap" component={Swap} />
 
-                <Route exact strict path="/pool/import" component={PoolFinder} />
-                <Route exact strict path="/pool/v2" component={PoolV2} />
-                {/* <Route exact strict path="/pool" component={Pool} /> */}
-                <Redirect from="/pool" to="/pool/v2" />
-                {/* <Route exact strict path="/pool/:tokenId" component={PositionPage} /> */}
+                {/* <Route exact strict path="/pool/import" component={PoolFinder} /> */}
+                {/* <Route exact strict path="/pool/v2" component={PoolV2} /> */}
+                {/* ////////////////<Route exact strict path="/pool" component={Pool} /> /////////////////*/}
+                {/* <Redirect from="/pool" to="/pool/v2" /> */}
+                {/* /////////////<Route exact strict path="/pool/:tokenId" component={PositionPage} ////////////////> */}
 
-                <Route
+                {/* <Route
                   exact
                   strict
                   path="/add/v2/:currencyIdA?/:currencyIdB?"
@@ -222,21 +199,21 @@ export default function App() {
                   strict
                   path="/add/:currencyIdA?/:currencyIdB?/:feeAmount?"
                   component={RedirectDuplicateTokenIdsV2}
-                />
+                /> */}
 
-                {/* <Route
+                {/*////////// <Route
                   exact
                   strict
                   path="/increase/:currencyIdA?/:currencyIdB?/:feeAmount?/:tokenId?"
                   component={AddLiquidity}
-                /> */}
+                /> /////////////////*/}
 
-                <Route exact strict path="/remove/v2/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-                <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
-                {/* <Route exact strict path="/remove/:tokenId" component={RemoveLiquidityV3} /> */}
+                {/* <Route exact strict path="/remove/v2/:currencyIdA/:currencyIdB" component={RemoveLiquidity} />
+                <Route exact strict path="/remove/:currencyIdA/:currencyIdB" component={RemoveLiquidity} /> */}
+                {/* ///////////<Route exact strict path="/remove/:tokenId" component={RemoveLiquidityV3} />//////////////// */}
 
-                {/* <Route exact strict path="/migrate/v2" component={MigrateV2} /> */}
-                {/* <Route exact strict path="/migrate/v2/:address" component={MigrateV2Pair} /> */}
+                {/* /////////////<Route exact strict path="/migrate/v2" component={MigrateV2} /> ////////////*/}
+                {/* ////////////<Route exact strict path="/migrate/v2/:address" component={MigrateV2Pair} /> ///////////////*/}
 
                 <Route component={RedirectPathToSwapOnly} />
               </Switch>

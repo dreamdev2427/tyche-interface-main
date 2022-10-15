@@ -17,7 +17,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .app{
-    background-image: url('../../public/images/background.svg');
+    background-image: url('./images/background.svg');
     background-color: black;
     min-height: 100vh;
     background-size: cover;
@@ -47,7 +47,6 @@ a{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    // align-items: center;
     position: fixed;
     height: 100%;
     width: 240px;
@@ -96,12 +95,8 @@ a{
             }
         }
         .nav-link{
-            // padding: 10px 20px;
             display: block;
             background: #242628;
-            // width: 45px;
-            // height: 45px;
-            // line-height: 55px;
             padding: 10px;
             text-align: center;
             margin: 10px 0;
@@ -176,7 +171,6 @@ a{
     }
     &:hover{
         width: 220px;
-        // align-items: flex-start;
         .menu-items, .top{
             span{
                 display: block;
@@ -300,9 +294,6 @@ a{
                     position: relative;
                 }
                 .currency-dropdown{
-                    // position: absolute;
-                    // left: 0;
-                    // top: 110px;
                     width: 100%;
                     z-index: 9999;
                     min-height: 100px;
@@ -411,7 +402,6 @@ a{
                     display: flex;
                     justify-content: space-between;
                     align-items: flex-start;
-                    // flex-direction: row;
                     h4{
                         font-weight: normal;
                         text-transform: uppercase;
@@ -430,7 +420,6 @@ a{
                         width: 60%;
                         .row{
                             margin-top: 20px;
-                            // align-items: center;
                             h3{
                                 text-transform: uppercase;
                                 margin-bottom: 3px;
@@ -617,20 +606,6 @@ a{
         }
     }
 }
-// .card-body.swap-body{
-//     .order-col-0{
-//         order: 1;
-//     }
-//     .order-col-1{
-//         order: 0;
-//     }
-//     .order-col-2{
-//         order: 2;
-//     }
-//     .order-col-3{
-//         order: 3;
-//     }
-// }
 .card-body{
     .order-col-0{
         order: 0;
@@ -875,7 +850,6 @@ a{
                     }
                     td{
                         margin: 10px 0;
-                        // padding: 10px 10px;
                         .first-row-data{
                             display: flex;
                             .details{

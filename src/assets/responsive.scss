@@ -16,7 +16,6 @@
     .sidebar.collapse{
         width: 0px;
         left: -100%;
-        // align-items: flex-start !important;
         &:hover{
             width: 0px;
             .menu-items, .top{
@@ -164,7 +163,6 @@
     .pool{
         .box{
             .top{
-                // flex-direction: column;
                 gap: 20px;
             }
             .right{
@@ -221,7 +219,6 @@
     .sidebar.collapse{
         width: 0px;
         left: -100%;
-        // align-items: flex-start !important;
         &:hover{
             width: 0px;
             .menu-items, .top{
@@ -279,7 +276,6 @@
     .sidebar{
         background: rgba(14, 14, 14, 1);
         width: 220px;
-        // align-items: flex-start !important;
         .menu-items, .top{
             span{
                 display: block;
@@ -304,9 +300,6 @@
     .main-content{
         margin-left: 0px;
     }
-    // .mobile-menu-icon, .mobile-menu{
-    //     display: block;
-    // }
     .collapse-menu-btn{
         display: block !important;
     }

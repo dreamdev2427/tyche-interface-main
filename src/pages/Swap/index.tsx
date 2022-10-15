@@ -51,7 +51,6 @@ import { getTradeVersion } from '../../utils/getTradeVersion'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { warningSeverity } from '../../utils/prices'
 import AppBody from '../AppBody'
-import { NomadWarningBanner } from 'components/WarningBanner/NomadWarningBanner'
 
 const StyledInfo = styled(Info)`
   opacity: 0.4;
@@ -346,9 +345,8 @@ export default function Swap({ history }: RouteComponentProps) {
         onDismiss={handleDismissTokenWarning}
       />
 
-      <Tux src={TuxImg} />
+      {/* <Tux src={TuxImg} /> */}
       <AppBody>
-        <NomadWarningBanner />
         <SwapHeader allowedSlippage={allowedSlippage} />
         <Wrapper id="swap-page">
           <ConfirmSwapModal

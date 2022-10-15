@@ -7,29 +7,17 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/macro'
 
-// import Logo from '../../assets/logo'
-
 import { useActiveWeb3React } from '../../hooks/web3'
 import { useETHBalances } from '../../state/wallet/hooks'
 import { BridgeMenu } from '../Menu/BridgeMenu'
-import { MobileMenu } from '../Menu/MobileMenu'
-
-// import { ExternalLink } from '../../theme'
 
 import { YellowCard } from '../Card'
-import Menu from '../Menu'
 
-import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
 // import Modal from '../Modal'
 // import UniBalanceContent from './UniBalanceContent'
 import { ChainId } from 'constants/chains'
 import TycheLogo from '../../assets/svg/logo.svg'
-import { ExternalLink } from 'theme/components'
-
-const Logo = styled.img`
-  height: 30px;
-`
 
 const HeaderFrame = styled.div<{ showBackground: boolean }>`
   display: grid;
@@ -62,75 +50,30 @@ const HeaderFrame = styled.div<{ showBackground: boolean }>`
     padding: 1rem;
   `}
 `
-
-const HeaderControls = styled.div`
+const MenuIconWrapper = styled.div`
+.gradient-btn{
+  color: white;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  justify-self: flex-end;
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: row;
-    justify-content: space-between;
-    justify-self: center;
-    width: 100%;
-    max-width: 960px;
-    padding: 1rem;
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    z-index: 99;
-    height: 72px;
-    border-radius: 12px 12px 0 0;
-    background-color: ${({ theme }) => theme.bg1};
-    backdrop-filter: blur(4px) brightness(50%) saturate(150%);
-  `};
-`
-
-const HeaderElement = styled.div`
-  display: flex;
-  align-items: center;
-
-  /* addresses safari's lack of support for "gap" */
-  & > *:not(:first-child) {
-    margin-left: 8px;
+  width: 100%;
+  border: none;
+  padding: 10px 27px;
+  cursor: pointer;
+  background: linear-gradient(92.13deg, #944DFF 0.33%, #00CBA1 100.07%);
+    border-radius: 16px;
+  span{
+      margin-left: 5px;
+      text-transform: uppercase;
+      font-weight: bold;
   }
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    flex-direction: row-reverse;
-    align-items: center;
-  `};
-`
-
-const HeaderElementWrap = styled.div`
+}
+.social-icons{
   display: flex;
+  justify-content: space-between;
   align-items: center;
-`
-
-const HeaderRow = styled(RowFixed)`
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-   width: 100%;
-  `};
-`
-
-const HeaderLinks = styled(Row)`
-  background: ${({ theme }) =>
-    `linear-gradient(90deg, ${theme.darkTransparent2} 0%, ${theme.secondary1_10} 50%, ${theme.darkTransparent2} 100%);`};
-  border: 1px solid rgba(12, 92, 146, 0.7);
-  box-shadow: 0 0 5px rgba(39, 210, 234, 0.2), 0 0 7px rgba(39, 210, 234, 0.2);
-  margin-left: 4%;
-  width: fit-content;
-  padding: 4px;
-  border-radius: 10px;
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 10px;
-  overflow: auto;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
-    justify-self: flex-end;
-  `};
-`
+  padding: 20px 0;
+}`
 
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
@@ -147,18 +90,6 @@ const AccountElement = styled.div<{ active: boolean }>`
 
   :focus {
     border: 1px solid blue;
-  }
-`
-
-const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
-
-const HideLarge = styled.span`
-  @media screen and (min-width: 700px) {
-    display: none !important;
   }
 `
 
@@ -181,109 +112,6 @@ const BalanceText = styled(Text)`
   `};
 `
 
-const Title = styled.a`
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-  justify-self: flex-start;
-  margin-right: 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
-  `};
-  :hover {
-    cursor: pointer;
-  }
-`
-
-const activeClassName = 'ACTIVE'
-
-const StyledNavLink = styled(NavLink).attrs({
-  activeClassName,
-})`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: left;
-  border-radius: 10px;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text3};
-  font-size: 1rem;
-  width: fit-content;
-  font-weight: 500;
-  padding: 8px 12px;
-
-  &.${activeClassName} {
-    border-radius: 0px;
-    font-weight: 800;
-    color: ${({ theme }) => theme.text1};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.text1)};
-  }
-`
-
-const StyledExternalLink = styled(ExternalLink).attrs({
-  activeClassName,
-})<{ isActive?: boolean }>`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: left;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text3};
-  font-size: 1rem;
-  width: fit-content;
-  margin: 0 12px;
-  font-weight: 500;
-
-  &.${activeClassName} {
-    border-radius: 0px;
-    font-weight: 800;
-    color: ${({ theme }) => theme.text1};
-  }
-
-  :hover,
-  :focus {
-    text-decoration: none;
-    color: ${({ theme }) => darken(0.1, theme.text1)};
-  }
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-      display: none;
-`}
-`
-
-export const StyledMenuButton = styled.button`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-  height: 35px;
-  background-color: ${({ theme }) => theme.bg2};
-  margin-left: 8px;
-  padding: 0.15rem 0.5rem;
-  border-radius: 0.5rem;
-
-  :hover,
-  :focus {
-    cursor: pointer;
-    outline: none;
-    background-color: ${({ theme }) => theme.bg4};
-  }
-
-  svg {
-    margin-top: 2px;
-  }
-  > * {
-    stroke: ${({ theme }) => theme.text1};
-  }
-`
 
 const NETWORK_LABELS: Record<ChainId, string> = {
   [ChainId.TESTNET]: 'Evmos Testnet',
@@ -314,90 +142,8 @@ export default function Header() {
     //Javascript split method to get the name of the path in array
     const splitLocation = pathname.split("/");
 
-  return (
-    <>
-    <HeaderFrame showBackground={scrollY > 45}>
-      {/* <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
-        <UniBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
-      </Modal> */}
-      <HeaderRow>
-        <Title href=".">
-          <Logo src={TycheLogo} />
-        </Title>
-      </HeaderRow>
-      <HideSmall>
-        <HeaderLinks>
-          <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-            {t('swap')}
-          </StyledNavLink>
-          <StyledNavLink
-            id={`pool-nav-link`}
-            to={'/pool'}
-            isActive={(match, { pathname }) =>
-              Boolean(match) ||
-              pathname.startsWith('/add') ||
-              pathname.startsWith('/remove') ||
-              pathname.startsWith('/increase') ||
-              pathname.startsWith('/find')
-            }
-          >
-            {t('pool')}
-          </StyledNavLink>
-          <StyledNavLink
-            id={`assets-nav-link`}
-            to={'/assets'}
-            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/assets')}
-          >
-            {t('Assets')}
-          </StyledNavLink>
-          <StyledNavLink
-            id={`farm-nav-link`}
-            to={'/farm'}
-            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/farm')}
-          >
-            {t('Farm')}
-          </StyledNavLink>
-          <StyledNavLink
-            id={`stake-nav-link`}
-            to={'/stake'}
-            isActive={(match, { pathname }) => Boolean(match) || pathname.startsWith('/stake')}
-          >
-            {t('Stake')}
-          </StyledNavLink>
-          <BridgeMenu />
-          <StyledExternalLink id={`charts-nav-link`} href="https://info.diffusion.fi">
-            {t('Charts')}
-            <sup>↗</sup>
-          </StyledExternalLink>
-        </HeaderLinks>
-      </HideSmall>
-      <HeaderControls>
-        <HeaderElement>
-          <HideSmall>
-            {chainId && NETWORK_LABELS[chainId] && (
-              <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
-            )}
-          </HideSmall>
-          <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {account && userEthBalance ? (
-              <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} <span style={{ color: '#27D2EA' }}>EVMOS</span>
-              </BalanceText>
-            ) : null}
-            <Web3Status />
-          </AccountElement>
-        </HeaderElement>
-        <HeaderElementWrap>
-          <HideLarge>
-            <MobileMenu />
-          </HideLarge>
-        </HeaderElementWrap>
-        <HeaderElementWrap>
-          <Menu />
-        </HeaderElementWrap>
-      </HeaderControls>
-    </HeaderFrame>
-    <section className={collapsemenu ? "sidebar mobile-sidebar" : "sidebar collapse"}>
+  return (          
+    <section className={collapsemenu ? "sidebar mobile-sidebar" : "sidebar"}>
     <div className="top">
         <img src={TycheLogo} alt="logo" /> <span className='text-gradient'>TYCHE</span>
         <button className="mobile-menu-close-icon" onClick={() => { setCollapseMenu(!collapsemenu) }}>
@@ -405,8 +151,8 @@ export default function Header() {
         </button>
     </div>
     <div className="menu-items">
-        <div className={splitLocation[1] === "" ? "active-menu menu" : "menu"}>
-            <NavLink to='/' className='nav-item'>
+        <div className={splitLocation[1] === "" || splitLocation[1] === "swap" ? "active-menu menu" : "menu"}>
+            <NavLink to='/swap' className='nav-item'>
                 <div className='nav-link'>
                     <img src="/images/menu-1.svg" alt="menu-1" />
                 </div>
@@ -421,8 +167,14 @@ export default function Header() {
                 <span>mint</span>
             </NavLink>
         </div>
-        <div className={splitLocation[1] === "my-liquidity" ? "active-menu menu" : "menu"}>
-            <NavLink to='/my-liquidity' className="nav-item">
+        <div className={splitLocation[1] === "pool" ? "active-menu menu" : "menu"}>
+            <NavLink to='/pool' className="nav-item"  isActive={(match, { pathname }) =>
+              Boolean(match) ||
+              pathname.startsWith('/add') ||
+              pathname.startsWith('/remove') ||
+              pathname.startsWith('/increase') ||
+              pathname.startsWith('/find')
+            }>
                 <div className='nav-link'>
                     <img src="/images/menu-3.svg" alt="menu-3" />
                 </div>
@@ -437,12 +189,12 @@ export default function Header() {
                 <span>assets</span>
             </NavLink>
         </div>
-        <div className={splitLocation[1] === "stack" ? "active-menu menu" : "menu"}>
-            <NavLink to='/stack' className="nav-item">
+        <div className={splitLocation[1] === "stake" ? "active-menu menu" : "menu"}>
+            <NavLink to='/stake' className="nav-item">
                 <div className='nav-link'>
                     <img src="/images/menu-5.svg" alt="menu-5" />
                 </div>
-                <span>stack <img src="/images/square-arrow-up.svg" alt="square-arrow-up" /></span>
+                <span>stake <img src="/images/square-arrow-up.svg" alt="square-arrow-up" /></span>
             </NavLink>
         </div>
         <div className={splitLocation[1] === "governance" ? "active-menu menu" : "menu"}>
@@ -462,14 +214,22 @@ export default function Header() {
             </NavLink>
         </div>
     </div>
-    <div className="menu-icon">
-        <button className='collapse-menu-btn' onClick={() => {setCollapseMenu(!collapsemenu)}}>
-            <img src="/images/menu-icon.svg" alt="menu-icon" />
-        </button>
-        <button className='gradient-btn'>
+    <MenuIconWrapper>                
+        {/* {chainId && NETWORK_LABELS[chainId] && (
+              <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
+            )} */}
+          <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
+            {account && userEthBalance ? (
+              <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
+                {userEthBalance?.toSignificant(4)} <span style={{ color: '#27D2EA' }}>EVMOS</span>
+              </BalanceText>
+            ) : null}
+            <Web3Status />
+          </AccountElement>
+        {/* <button className='gradient-btn'>
             <img src="/images/wallet.svg" alt="wallet" />
             <span>connect wallet</span>
-        </button>
+        </button> */}
         <div className="social-icons">
             <a href='/' target="blank">
                 <img src="/images/discord.svg" alt="discord" />
@@ -484,11 +244,20 @@ export default function Header() {
                 <img src="/images/medium.svg" alt="medium" />
             </a>
         </div>
-    </div>
-    <button className="mobile-menu-icon" onClick={() => { setCollapseMenu(!collapsemenu) }}>
+    </MenuIconWrapper>
+    <button className="mobile-menu-icon" 
+      style={{
+        display: "none",
+        background: "transparent",
+        position: "fixed",
+        right: "10px",
+        top: "20px",
+        border: "none",
+        cursor: "pointer"
+      }}
+      onClick={() => { setCollapseMenu(!collapsemenu) }}>
         <img src="/images/menu-icon.svg" alt="menu" />
     </button>
 </section>
-</>
   )
 }

@@ -207,7 +207,8 @@ function Web3StatusInner() {
     )
   } else {
     return (
-      <Web3StatusConnect id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+      <Web3StatusConnect  id="connect-wallet" onClick={toggleWalletModal} faded={!account}>
+        <img src="/images/wallet.svg" alt="wallet" />
         <Text>{t('Connect to a wallet')}</Text>
       </Web3StatusConnect>
     )
