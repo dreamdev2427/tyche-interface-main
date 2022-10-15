@@ -24,18 +24,15 @@ import { StakingPage } from './Stake/StakingPage'
 import { DisclaimerModal } from 'components/DisclaimerModal'
 import { AssetsListPage } from './Assets/AssetsList'
 
-const AppWrapper = styled.div`
-  background-image: url('../../public/images/background.svg');
-  display: flex;
-  flex-flow: row;
-  justify-items: center;
-  background-color: black;
-  min-height: 100vh;
-  background-size: cover;
-  background-position: top;
-  background-attachment: fixed;
-  overflow-x: hidden;
-`
+// const AppWrapper = styled.div`
+//   background-image: url('../../public/images/background.svg');
+//   background-color: black;
+//   min-height: 100vh;
+//   background-size: cover;
+//   background-position: top;
+//   background-attachment: fixed;
+//   overflow-x: hidden;
+// `
 
 const BodyWrapper = styled.div`
   display: flex;
@@ -159,7 +156,7 @@ export default function App() {
         <Route component={GoogleAnalyticsReporter} />
         <Route component={DarkModeQueryParamReader} />
         <Route component={ApeModeQueryParamReader} />
-        <AppWrapper>
+        <div className="app">
           <DisclaimerModal />
           <HeaderWrapper>
             <Header />
@@ -220,7 +217,7 @@ export default function App() {
             </Web3ReactManager>
             <Marginer />
           </BodyWrapper>
-        </AppWrapper>
+        </div>
       </Suspense>
     </ErrorBoundary>
   )
