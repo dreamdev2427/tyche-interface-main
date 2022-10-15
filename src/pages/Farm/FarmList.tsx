@@ -27,7 +27,6 @@ import { Tux } from '../../components/farm/TuxBanner'
 import { HRDark } from '../../components/HR/HR'
 import { CurrencyAmount } from 'sdk-core/entities'
 import { useUSDCValue } from 'hooks/useUSDCPrice'
-import { NomadWarningBanner } from 'components/WarningBanner/NomadWarningBanner'
 import { HeadingWithPotion } from 'components/Heading/HeadingWithPotion'
 
 const FarmListContainer = styled.div`
@@ -40,8 +39,6 @@ export function FarmListPage() {
 
   return (
     <FarmListContainer>
-      <Tux />
-      <NomadWarningBanner />
       <HeadingWithPotion heading="Farm" description="Earn fees and rewards by depositing and staking your LP tokens." />
       {/* {pools.map((pool) => pool.lpTokenAddress && <Pool key={pool.lpTokenAddress} {...pool} />).filter(isTruthy)} */}
       <FarmTable>

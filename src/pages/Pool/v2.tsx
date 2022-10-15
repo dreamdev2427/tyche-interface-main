@@ -22,7 +22,6 @@ import { useStakingInfo } from '../../state/stake/hooks'
 import { BIG_INT_ZERO } from '../../constants/misc'
 import { Pair } from '@uniswap/v2-sdk'
 import { InfoCard } from 'components/InfoCard'
-import { NomadWarningBanner } from 'components/WarningBanner/NomadWarningBanner'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -125,7 +124,6 @@ export default function Pool() {
     <>
       <PageWrapper>
         <SwapPoolTabs active={'pool'} />
-        <NomadWarningBanner style={{ marginBottom: 16 }} />
         <InfoCard
           title="Liquidity provider rewards"
           description={`Liquidity providers earn a 0.25% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.`}
