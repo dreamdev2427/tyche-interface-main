@@ -208,21 +208,13 @@ export const TYPE = {
 
 export const ThemedBackground = styled.div<{ backgroundColor?: string | undefined }>`
   position: fixed;
-  /* top: 0; */
   top: 30vh;
-  /* left: calc(-100vw / 2); */
   right: 0;
   pointer-events: none;
-  /* max-width: 100vw !important; */
   width: 100vw;
-  /* width: 200vw; */
   height: 200vh;
-  mix-blend-mode: color;
-  /* background: ${({ backgroundColor }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${
-      backgroundColor ? backgroundColor : '#fc077d10'
-    } 0%, rgba(255, 255, 255, 0) 100%)`}; */
-  background: transparent radial-gradient(closest-side at 50% 50%, #0c5e94 0%, #20212400 100%) 0% 0% no-repeat
+  mix-blend-mode: color; 
+  background-image: url('../../public/images/background.svg'); 
     padding-box;
   opacity: 0.6;
   transform: translateY(-100vh);

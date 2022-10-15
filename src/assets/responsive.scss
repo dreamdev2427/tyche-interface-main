@@ -1,0 +1,351 @@
+@import './grid.scss';
+
+@media only screen and (max-width: 480px){
+    h1{
+        font-size: 25px !important;
+    }
+    h2{
+        font-size: 22px !important;
+    }
+    .settings{
+        .bottom-btns{
+            overflow-x: scroll;
+        }
+    }
+
+    .sidebar.collapse{
+        width: 0px;
+        left: -100%;
+        // align-items: flex-start !important;
+        &:hover{
+            width: 0px;
+            .menu-items, .top{
+                span{
+                    display: none;
+                }
+            }
+            .gradient-btn, .social-icons{
+                display: none !important;
+            }
+            .collapse-menu-btn{
+                display: flex !important;
+            }
+        }
+    }
+    .sidebar.mobile-sidebar{
+        left: 0;
+        .mobile-menu-close-icon{
+            display: block !important;
+        }
+        .mobile-menu-icon{
+            display: none !important;
+        }
+    }
+    .mobile-menu-icon{
+        display: block;
+    }
+    .main{
+        padding: 5px;
+        .col-sm-12{
+            width: 300px;
+        }
+        .card{
+            padding: 22px !important;
+        }
+    }
+    .main-content{
+        margin-left: -10px !important;
+    }
+    .swap, .liquidity{
+        .box{
+            .top{
+                flex-direction: column;
+                gap: 15px;
+                .right{
+                    .data{
+                        text-align: left !important;
+                    }
+                }
+                .right{
+                    width: 100% !important;
+                    .col-sm-3{
+                        width: 33%;
+                    }
+                    .col-sm-9{
+                        width: 67%;
+                        
+                    }
+                }
+                .left{
+                    width: 100% !important;
+                    .col-sm-3{
+                        width: 33%;
+                    }
+                    .col-sm-9{
+                        width: 67%;
+                        h3{
+                            display: flex;
+                        }
+                    }
+                }
+            }
+            .col-sm-9{
+                h3{
+                    justify-content: flex-end;
+                }
+                p{
+                    text-align: right;
+                }
+            }
+        }
+        .last-box{
+            .top{
+                flex-direction: row !important;
+                .left{
+                    width: 80% !important;
+                }
+                .right{
+                    width: 20% !important;
+                }
+
+            }
+        }
+
+    }
+    .my-liquidity{
+        .card-top{
+            .left-top{
+                margin-bottom: 10px;
+                justify-content: space-between;
+                width: 100%;
+                flex-wrap: wrap;
+                .create-btn, a{
+                    width: 100%;
+                    button{
+                        width: 100%;
+                    }
+                }
+            }
+            .right-top{
+                justify-content: space-between;
+                width: 100%;
+                flex-wrap: wrap;
+                .inner-box{
+                    width: 92%;
+                }
+                .filter{
+                    width: 100%;
+                    margin-left: 0;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    .liquidity{
+        .box{
+            .top{
+                flex-direction: column;
+                gap: 20px;
+            }
+            .left,.right{
+                width: 100%;
+                .col-sm-3{
+                    width: 33%;
+                }
+                .col-sm-9{
+                    width: 67%;
+                }
+            }
+            .data{
+                text-align: left !important;
+            }
+        }
+    }
+    .pool{
+        .box{
+            .top{
+                // flex-direction: column;
+                gap: 20px;
+            }
+            .right{
+                width: 15%;
+                .col-sm-3{
+                    width: 33%;
+                }
+                .col-sm-9{
+                    width: 67%;
+                }
+            }
+            .left{
+                width: 85%;
+                .col-sm-3{
+                    width: 33%;
+                }
+                .col-sm-9{
+                    width: 67%;
+                }
+            }
+            .data{
+                text-align: left !important;
+            }
+        }
+        .card-top{
+            .right-top{
+                input{
+                    min-width: 200px !important;
+                }
+                .filter{
+                    margin-left: 0;
+                    margin-top: 10px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+
+@media only screen and (max-width: 576px){
+    .table-responsive{
+        overflow-x: scroll;
+    }
+    
+
+}
+
+@media only screen and (min-width: 481px) and (max-width: 768px){
+   
+}
+
+@media only screen and (max-width: 768px){
+    .sidebar.collapse{
+        width: 0px;
+        left: -100%;
+        // align-items: flex-start !important;
+        &:hover{
+            width: 0px;
+            .menu-items, .top{
+                span{
+                    display: none;
+                }
+            }
+            .gradient-btn, .social-icons{
+                display: none !important;
+            }
+            .collapse-menu-btn{
+                display: flex !important;
+            }
+        }
+    }
+    .sidebar.mobile-sidebar{
+        left: 0;
+        .mobile-menu-close-icon{
+            display: block !important;
+        }
+        .mobile-menu-icon{
+            display: none !important;
+        }
+    }
+    .mobile-menu-icon{
+        display: block;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 1024px){
+    .sidebar.collapse{
+        width: 50px;
+        .mobile-menu-close-icon{
+            display: none;
+        }
+        &:hover{
+            align-items: flex-start !important;
+            width: 220px;
+            .menu-items, .top{
+                span{
+                    display: block;
+                }
+            }
+            .gradient-btn, .social-icons{
+                display: flex !important;
+            }
+            .collapse-menu-btn{
+                display: none !important;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px){
+    .sidebar{
+        background: rgba(14, 14, 14, 1);
+        width: 220px;
+        // align-items: flex-start !important;
+        .menu-items, .top{
+            span{
+                display: block;
+            }
+        }
+        .nav-link{
+            margin: 7px 0 !important;
+            img{
+                width: 14px;
+            }
+        }
+    }
+    .mobile-sidebar{
+        .gradient-btn,.social-icons{
+            display: flex;
+        }
+        .collapse-menu-btn{
+            display: none !important;
+        }
+    }
+   
+    .main-content{
+        margin-left: 0px;
+    }
+    // .mobile-menu-icon, .mobile-menu{
+    //     display: block;
+    // }
+    .collapse-menu-btn{
+        display: block !important;
+    }
+    .swap{
+        padding-top: 60px;
+    }
+   
+}
+@media only screen and (min-width: 480px) and (max-width: 1280px){
+    .my-liquidity{
+        .card-top{
+            .left-top{
+                margin-bottom: 20px;
+                justify-content: space-between;
+                width: 100%;
+                .create-btn, a{
+                    width: 33%;
+                    button{
+                        width: 100%;
+                    }
+                }
+            }
+            .right-top{
+                justify-content: space-between;
+                width: 100%;
+                .inner-box{
+                    width: 70%;
+                }
+                .filter{
+                    width: 30%;
+                }
+            }
+        }
+    }
+}
+@media only screen and (min-width: 1024px){
+    .sidebar.collapse{
+        &:hover{
+            align-items: flex-start !important;
+        }
+    }
+}
