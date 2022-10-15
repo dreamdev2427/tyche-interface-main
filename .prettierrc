@@ -1,5 +1,7 @@
 {
   "semi": false,
-  "singleQuote": true,
+  "singleQuote": false,
+  "space":false,
+  "tab":false,
   "printWidth": 120
 }

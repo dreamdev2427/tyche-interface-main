@@ -1,7 +1,8 @@
 import useScrollPosition from '@react-hook/window-scroll'
 import React from 'react'
+import { useState } from 'react'
 import { Text } from 'rebass'
-import { NavLink } from 'react-router-dom'
+import { NavLink , useLocation} from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/macro'
@@ -23,7 +24,7 @@ import Web3Status from '../Web3Status'
 // import Modal from '../Modal'
 // import UniBalanceContent from './UniBalanceContent'
 import { ChainId } from 'constants/chains'
-import DiffusionLogo from '../../assets/svg/logo.svg'
+import TycheLogo from '../../assets/svg/logo.svg'
 import { ExternalLink } from 'theme/components'
 
 const Logo = styled.img`
@@ -301,15 +302,27 @@ export default function Header() {
   // const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
 
   const scrollY = useScrollPosition()
+    // const [menu, setMenu] = useState(false)
+    const [collapsemenu, setCollapseMenu] = useState(false)
+
+    //assigning location variable
+    const location = useLocation();
+
+    //destructuring pathname from location
+    const { pathname } = location;
+
+    //Javascript split method to get the name of the path in array
+    const splitLocation = pathname.split("/");
 
   return (
+    <>
     <HeaderFrame showBackground={scrollY > 45}>
       {/* <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
         <UniBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
       </Modal> */}
       <HeaderRow>
         <Title href=".">
-          <Logo src={DiffusionLogo} />
+          <Logo src={TycheLogo} />
         </Title>
       </HeaderRow>
       <HideSmall>
@@ -384,5 +397,98 @@ export default function Header() {
         </HeaderElementWrap>
       </HeaderControls>
     </HeaderFrame>
+    <section className={collapsemenu ? "sidebar mobile-sidebar" : "sidebar collapse"}>
+    <div className="top">
+        <img src={TycheLogo} alt="logo" /> <span className='text-gradient'>TYCHE</span>
+        <button className="mobile-menu-close-icon" onClick={() => { setCollapseMenu(!collapsemenu) }}>
+            <img src="/images/close.svg" alt="menu" />
+        </button>
+    </div>
+    <div className="menu-items">
+        <div className={splitLocation[1] === "" ? "active-menu menu" : "menu"}>
+            <NavLink to='/' className='nav-item'>
+                <div className='nav-link'>
+                    <img src="/images/menu-1.svg" alt="menu-1" />
+                </div>
+                <span>swap</span>
+            </NavLink>
+        </div>
+        <div className={splitLocation[1] === "mint" ? "active-menu menu" : "menu"}>
+            <NavLink to='/mint' className="nav-item">
+                <div className='nav-link'>
+                    <img src="/images/menu-2.svg" alt="menu-2" />
+                </div>
+                <span>mint</span>
+            </NavLink>
+        </div>
+        <div className={splitLocation[1] === "my-liquidity" ? "active-menu menu" : "menu"}>
+            <NavLink to='/my-liquidity' className="nav-item">
+                <div className='nav-link'>
+                    <img src="/images/menu-3.svg" alt="menu-3" />
+                </div>
+                <span>pool</span>
+            </NavLink>
+        </div>
+        <div className={splitLocation[1] === "assets" ? "active-menu menu" : "menu"}>
+            <NavLink to='/assets' className="nav-item">
+                <div className='nav-link'>
+                    <img src="/images/menu-4.svg" alt="menu-4" />
+                </div>
+                <span>assets</span>
+            </NavLink>
+        </div>
+        <div className={splitLocation[1] === "stack" ? "active-menu menu" : "menu"}>
+            <NavLink to='/stack' className="nav-item">
+                <div className='nav-link'>
+                    <img src="/images/menu-5.svg" alt="menu-5" />
+                </div>
+                <span>stack <img src="/images/square-arrow-up.svg" alt="square-arrow-up" /></span>
+            </NavLink>
+        </div>
+        <div className={splitLocation[1] === "governance" ? "active-menu menu" : "menu"}>
+            <NavLink to='/governance' className="nav-item">
+                <div className='nav-link'>
+                    <img src="/images/menu-6.svg" alt="menu-6" />
+                </div>
+                <span>governance <img src="/images/square-arrow-up.svg" alt="square-arrow-up" /></span>
+            </NavLink>
+        </div>
+        <div className={splitLocation[1] === "lending" ? "active-menu menu" : "menu"}>
+            <NavLink to='/lending' className="nav-item">
+                <div className='nav-link'>
+                    <img src="/images/menu-7.svg" alt="menu-7" />
+                </div>
+                <span>lending <img src="/images/square-arrow-up.svg" alt="square-arrow-up" /></span>
+            </NavLink>
+        </div>
+    </div>
+    <div className="menu-icon">
+        <button className='collapse-menu-btn' onClick={() => {setCollapseMenu(!collapsemenu)}}>
+            <img src="/images/menu-icon.svg" alt="menu-icon" />
+        </button>
+        <button className='gradient-btn'>
+            <img src="/images/wallet.svg" alt="wallet" />
+            <span>connect wallet</span>
+        </button>
+        <div className="social-icons">
+            <a href='/' target="blank">
+                <img src="/images/discord.svg" alt="discord" />
+            </a>
+            <a href='/' target="blank">
+                <img src="/images/telegram.svg" alt="telegram" />
+            </a>
+            <a href='/' target="blank">
+                <img src="/images/twitter.svg" alt="twitter" />
+            </a>
+            <a href='/' target="blank">
+                <img src="/images/medium.svg" alt="medium" />
+            </a>
+        </div>
+    </div>
+    <button className="mobile-menu-icon" onClick={() => { setCollapseMenu(!collapsemenu) }}>
+        <img src="/images/menu-icon.svg" alt="menu" />
+    </button>
+</section>
+</>
   )
 }
