@@ -70,11 +70,11 @@ export const BodyWrapper = styled.div<{ margin?: string }>`
   width: 100%;
   background: ${({ theme }) =>
     `linear-gradient(90deg, ${theme.darkTransparent3} 0%, ${theme.dark2} 50%, ${theme.darkTransparent3} 100%);`};
-  border-radius: 8px;
   margin-top: 1rem;
-  border: 1px solid rgba(12, 92, 146, 0.7);
-  backdrop-filter: blur(4px) saturate(150%);
-  ${Glow}
+  padding: 32px;
+  background: #242628;
+  border-radius: 16px;
+  min-height: 300px;
 `
 
 /**

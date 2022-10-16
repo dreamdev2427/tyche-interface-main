@@ -53,9 +53,8 @@ const Base = styled(RebassButton)<{
 `
 
 export const ButtonPrimary = styled(Base)`
-  background: ${({ theme }) =>
-    `linear-gradient(264deg, ${theme.secondary1_30} 0%, ${theme.darkTransparent} 33%),  ${theme.secondary1_30} 66%`};
-  border: 1px solid ${({ theme }) => theme.primary1};
+background: linear-gradient(92.13deg, #944DFF 0.33%, #00CBA1 100.07%);
+border-radius: 16px;
   color: white;
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
@@ -83,11 +82,8 @@ export const ButtonPrimary = styled(Base)`
 `
 
 export const ButtonLight = styled(Base)`
-  background: transparent
-    linear-gradient(264deg, ${({ theme }) => theme.primary1_30} 0%, ${({ theme }) => theme.secondary1_30} 100%) 0% 0%
-    no-repeat padding-box;
-  background-color: ${({ theme }) => theme.primary5};
-  color: ${({ theme }) => theme.primaryText1};
+background: linear-gradient(92.13deg, #944DFF 0.33%, #00CBA1 100.07%);
+border-radius: 16px;
   font-size: 16px;
   font-weight: 500;
   &:focus {

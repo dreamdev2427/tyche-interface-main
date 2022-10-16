@@ -10,6 +10,7 @@ import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
 import styled, { ThemeContext } from 'styled-components'
+import { Percent } from '@uniswap/sdk-core'
 import AddressInputPanel from '../../components/AddressInputPanel'
 import { ButtonConfirmed, ButtonError, ButtonLight, ButtonPrimary } from '../../components/Button'
 import { GreyCard } from '../../components/Card'
@@ -28,7 +29,6 @@ import TokenWarningModal from '../../components/TokenWarningModal'
 import { useActiveWeb3React } from '../../hooks/web3'
 import { useAllTokens, useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
-import TuxImg from '../../assets/images/tux1.png'
 
 import useENSAddress from '../../hooks/useENSAddress'
 import { useERC20PermitFromTrade, UseERC20PermitState } from '../../hooks/useERC20Permit'
@@ -51,6 +51,15 @@ import { getTradeVersion } from '../../utils/getTradeVersion'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { warningSeverity } from '../../utils/prices'
 import AppBody from '../AppBody'
+import { useSetUserSlippageTolerance, useUserSlippageTolerance, useUserTransactionTTL } from 'state/user/hooks'
+
+enum SlippageError {
+  InvalidInput = 'InvalidInput',
+}
+
+enum DeadlineError {
+  InvalidInput = 'InvalidInput',
+}
 
 const StyledInfo = styled(Info)`
   opacity: 0.4;
@@ -62,17 +71,10 @@ const StyledInfo = styled(Info)`
   }
 `
 
-const Tux = styled.img`
-  position: absolute;
-  height: 250px;
-  margin-top: -140px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none
-  `};
-`
-
 export default function Swap({ history }: RouteComponentProps) {
   const loadedUrlParams = useDefaultsFromURLSearch()
+  const userSlippageTolerance = useUserSlippageTolerance()
+  const setUserSlippageTolerance = useSetUserSlippageTolerance()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -335,6 +337,79 @@ export default function Swap({ history }: RouteComponentProps) {
   const swapIsUnsupported = useIsSwapUnsupported(currencies?.INPUT, currencies?.OUTPUT)
 
   const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode
+  const [active, setActive] = useState(1)
+  const [settings, setSettings] = useState(false)
+  const [currencyOne, setCurrencyOne] = useState(false)
+  const [currencyTwo, setCurrencyTwo] = useState(false)
+  const [currencyDetails, setCurrencyDetails] = useState(false)
+  const [swap, setSwap] = useState(false)
+  const [slippageInput, setSlippageInput] = useState('')
+  const [slippageError, setSlippageError] = useState<SlippageError | false>(false)
+
+  const currencyOneTableData = [
+      {image: 'eth.svg', name: 'Ether', value: '10', symbol: 'ETH'},
+      {image: 'eth.svg', name: 'Ether', value: '10', symbol: 'ETH'},
+      {image: 'eth.svg', name: 'Ether', value: '10', symbol: 'ETH'},
+      {image: 'eth.svg', name: 'Ether', value: '10', symbol: 'ETH'},
+      {image: 'eth.svg', name: 'Ether', value: '10', symbol: 'ETH'},
+  ]
+  const currencyTwoTableData = [
+      {image: 'btc.svg', name: 'BTC', value: '10', symbol: 'BTC'},
+      {image: 'btc.svg', name: 'BTC', value: '10', symbol: 'BTC'},
+      {image: 'btc.svg', name: 'BTC', value: '10', symbol: 'BTC'},
+      {image: 'btc.svg', name: 'BTC', value: '10', symbol: 'BTC'},
+      {image: 'btc.svg', name: 'BTC', value: '10', symbol: 'BTC'},
+  ]
+  const closeActive = () =>{
+      // if(settings){
+      //     setSettings(false)
+      // }
+      // if(currencyOne){
+      //     setCurrencyOne(false)
+      // }
+      // if(currencyTwo){
+      //     setCurrencyTwo(false)
+      // }
+      if(currencyDetails){
+          setCurrencyDetails(false)
+      }
+  }
+
+  
+  function parseSlippageInput(value: string) {
+    // populate what the user typed and clear the error
+    setSlippageInput(value)
+    setSlippageError(false)
+    if (value.length === 0) {
+      setUserSlippageTolerance('auto')
+    } else {
+      const parsed = Math.floor(Number.parseFloat(value) * 100)
+
+      if (!Number.isInteger(parsed) || parsed < 0 || parsed > 5000) {
+        setUserSlippageTolerance('auto')
+        if (value !== '.') {
+          setSlippageError(SlippageError.InvalidInput)
+        }
+      } else {
+        setUserSlippageTolerance(new Percent(parsed, 10_000))
+      }
+    }
+  }
+
+  /*
+value={
+                  slippageInput.length > 0
+                    ? slippageInput
+                    : userSlippageTolerance === 'auto'
+                    ? ''
+                    : userSlippageTolerance.toFixed(2)
+                }
+                onChange={(e) => parseSlippageInput(e.target.value)}
+*/
+
+useEffect(() => {
+  console.log("allowedSlippage = ", allowedSlippage )
+},[allowedSlippage])
 
   return (
     <>
@@ -345,9 +420,56 @@ export default function Swap({ history }: RouteComponentProps) {
         onDismiss={handleDismissTokenWarning}
       />
 
-      {/* <Tux src={TuxImg} /> */}
-      <AppBody>
-        <SwapHeader allowedSlippage={allowedSlippage} />
+      <AppBody >
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          position: "relative",
+        }}>
+            <div>
+                <h2 style={{
+                      textTransform: "uppercase",
+                      marginBottom: "8px",
+                      fontSize: "32px",
+                }}>swap</h2>
+                <p style={{
+                      color: "#7C86A0",
+                      fontSize: "12px",
+                }}>The Best Place to Swap Defi Coins</p>
+            </div>
+            <div>
+                <img src="/images/settings.svg" alt="setting" onClick={() =>{setSettings(!settings)}} />
+            </div>
+            { settings ? <>
+                <div className="swap-settings">
+                    <h4 >TRANSACTION SETTINGS</h4>
+                    <p>Slippage tolerance <span><img src="/images/help.svg" alt="help" /></span></p>
+                    <div className="bottom-btns">
+                        <button className={active === 1 ? 'active' : ''} onClick={() =>{setActive(1); parseSlippageInput("1"); }}>1%</button>
+                        <button className={active === 3 ? 'active' : ''} onClick={() =>{setActive(3); parseSlippageInput("3"); }}>3%</button>
+                        <button className={active === 5 ? 'active' : ''} onClick={() =>{setActive(5); parseSlippageInput("5"); }}>5%</button>
+                        <button className={active === 10 ? 'active' : ''} onClick={() =>{setActive(10); parseSlippageInput("10"); }}>10%</button>
+                        <input type="text" className='last' 
+                          placeholder={allowedSlippage.toFixed(2)}
+                          value={
+                            slippageInput.length > 0
+                              ? slippageInput
+                              : userSlippageTolerance === 'auto'
+                              ? ''
+                              : userSlippageTolerance.toFixed(2)
+                          }
+                          onChange={(e) => parseSlippageInput(e.target.value)}
+                          onBlur={() => {
+                            setSlippageInput('')
+                            setSlippageError(false)
+                          }}
+                          color={slippageError ? 'red' : ''}
+                        />
+                    </div>
+                </div>
+            </> : ''}
+        </div>
         <Wrapper id="swap-page">
           <ConfirmSwapModal
             isOpen={showConfirm}
@@ -379,8 +501,9 @@ export default function Swap({ history }: RouteComponentProps) {
                 id="swap-currency-input"
               />
               <ArrowWrapper clickable>
-                <ArrowDown
-                  size="16"
+                <img
+                  className='swap-change-pair-img'
+                  src="/images/swap-button.svg"
                   onClick={() => {
                     setApprovalSubmitted(false) // reset 2 step UI for approvals
                     onSwitchTokens()
@@ -568,6 +691,7 @@ export default function Swap({ history }: RouteComponentProps) {
       {!swapIsUnsupported ? null : (
         <UnsupportedCurrencyFooter show={swapIsUnsupported} currencies={[currencies.INPUT, currencies.OUTPUT]} />
       )}
+
     </>
   )
 }

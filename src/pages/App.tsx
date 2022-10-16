@@ -157,7 +157,6 @@ export default function App() {
         <Route component={DarkModeQueryParamReader} />
         <Route component={ApeModeQueryParamReader} />
         <div className="app">
-          <DisclaimerModal />
           <HeaderWrapper>
             <Header />
           </HeaderWrapper>

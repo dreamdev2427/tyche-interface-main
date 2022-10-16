@@ -30,6 +30,13 @@ const ContentWrapper = styled(Column)`
   width: 100%;
   flex: 1 1;
   position: relative;
+  
+  background: #1B1C1E;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    z-index: 30;
+    
 `
 
 const Footer = styled.div`
@@ -194,11 +201,11 @@ export function CurrencySearch({
       </PaddedColumn>
       <Separator />
       {searchToken && !searchTokenIsAdded ? (
-        <Column style={{ padding: '20px 0', height: '100%' }}>
+        <Column style={{ padding: '20px 0', height: '100%', zIndex: 30 }}>
           <ImportRow token={searchToken} showImportView={showImportView} setImportToken={setImportToken} />
         </Column>
       ) : filteredSortedTokens?.length > 0 || filteredInactiveTokens?.length > 0 ? (
-        <div style={{ flex: '1' }}>
+        <div style={{ flex: '1', zIndex: 30  }}>
           <AutoSizer disableWidth>
             {({ height }) => (
               <CurrencyList
@@ -216,13 +223,13 @@ export function CurrencySearch({
           </AutoSizer>
         </div>
       ) : (
-        <Column style={{ padding: '20px', height: '100%' }}>
+        <Column style={{ padding: '20px', height: '100%', zIndex: 30  }}>
           <TYPE.main color={theme.text3} textAlign="center" mb="20px">
             No results found.
           </TYPE.main>
         </Column>
       )}
-      <Footer>
+      {/* <Footer>
         <Row justify="center">
           <ButtonText onClick={showManageView} color={theme.blue1} className="list-token-manage-button">
             <RowFixed>
@@ -233,7 +240,7 @@ export function CurrencySearch({
             </RowFixed>
           </ButtonText>
         </Row>
-      </Footer>
+      </Footer> */}
     </ContentWrapper>
   )
 }

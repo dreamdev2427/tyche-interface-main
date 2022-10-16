@@ -28,14 +28,16 @@ const InputPanel = styled.div<{ hideInput?: boolean }>`
   z-index: 1;
   width: ${({ hideInput }) => (hideInput ? '100%' : 'initial')};
   //margin-top: 5%;
+  background: #1B1C1E;
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
 `
 
 const FixedContainer = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.dark5};
   opacity: 0.95;
   display: flex;
   align-items: center;
@@ -44,14 +46,8 @@ const FixedContainer = styled.div`
 `
 
 const Container = styled.div<{ hideInput: boolean }>`
-  border-radius: ${({ hideInput }) => (hideInput ? '12px' : '12px')};
-  border: 1px solid ${({ theme, hideInput }) => (hideInput ? ' transparent' : theme.primaryTransparent)};
-  width: ${({ hideInput }) => (hideInput ? '100%' : 'initial')};
-  :focus,
-  :hover {
-    border: 1px solid ${({ theme, hideInput }) => (hideInput ? ' transparent' : theme.primary1_30)};
-    box-shadow: 0 0 5px rgba(39, 210, 234, 0.15), 0 0 10px rgba(39, 210, 234, 0.3);
-  }
+  width: ${({ hideInput }) => (hideInput ? '100%' : 'initial')}; 
+  
 `
 
 const CurrencySelect = styled(ButtonGray)<{ selected: boolean; hideInput?: boolean }>`
@@ -60,23 +56,21 @@ const CurrencySelect = styled(ButtonGray)<{ selected: boolean; hideInput?: boole
   font-weight: 500;
   background: ${({ selected, theme }) => (selected ? theme.darkTransparent : `transparent`)};
   color: ${({ selected, theme }) => (selected ? theme.text1 : theme.white)};
-  border-radius: 8px;
   box-shadow: ${({ selected }) => (selected ? 'none' : '0px 6px 10px rgba(0, 0, 0, 0.075)')};
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.075);
   outline: none;
   cursor: pointer;
   user-select: none;
-  border: 1px solid ${({ selected, theme }) => (!selected ? '#24C5E0' ?? 'transparent' : theme.primaryTransparent)};
   height: ${({ hideInput }) => (hideInput ? '2.8rem' : '2.4rem')};
   width: ${({ hideInput }) => (hideInput ? '100%' : 'initial')};
   padding: 0 8px;
   justify-content: space-between;
   margin-right: ${({ hideInput }) => (hideInput ? '0' : '12px')};
-  :focus,
-  :hover {
-    background-color: ${({ selected, theme }) =>
-      selected ? theme.primaryTransparent : darken(0.05, theme.primaryTransparent)};
-  }
+  
+  background: #1B1C1E;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
 `
 
 const InputRow = styled.div<{ selected: boolean }>`
@@ -170,7 +164,7 @@ export default function CurrencyInputPanel({
   value,
   onUserInput,
   onMax,
-  showMaxButton,
+  showMaxButton = true,
   onCurrencySelect,
   currency,
   otherCurrency,
@@ -209,7 +203,48 @@ export default function CurrencyInputPanel({
         </FixedContainer>
       )}
       <Container hideInput={hideInput}>
-        <InputRow style={hideInput ? { padding: '0', borderRadius: '8px' } : {}} selected={!onCurrencySelect}>
+        {!hideInput && !hideBalance && (
+          <FiatRow>
+            <RowBetween>
+              {account ? (
+                <RowFixed style={{ height: '17px' }} >
+                  <TYPE.body
+                    onClick={onMax}
+                    color={theme.text2}
+                    fontWeight={400}
+                    fontSize={14}
+                    style={{ display: 'inline', cursor: 'pointer' }}
+                  >
+                    {!hideBalance && !!currency && selectedCurrencyBalance
+                      ? (customBalanceText ?? 'AVAILABLE: ') +
+                        formatTokenAmount(selectedCurrencyBalance, 4) 
+                        // + ' ' +
+                        // currency.symbol
+                      : '-'}
+                  </TYPE.body>
+                  {showMaxButton && selectedCurrencyBalance ? (
+                    <StyledBalanceMax onClick={onMax}>(Max)</StyledBalanceMax>
+                  ) : null}
+                </RowFixed>
+              ) : (
+                '-'
+              )}
+               {!hideInput && (
+            <>
+              <NumericalInput
+                className="token-amount-input"
+                value={value}
+                onUserInput={(val) => {
+                  onUserInput(val)
+                }}
+              />
+            </>
+          )}
+              
+            </RowBetween>
+          </FiatRow>
+        )}
+        <InputRow style={hideInput ? { padding: '0', borderRadius: '8px', display:"flex", justifyContent:"space-between" } : { display:"flex", justifyContent:"space-between"}} selected={!onCurrencySelect}>
           <CurrencySelect
             selected={!!currency}
             hideInput={hideInput}
@@ -246,48 +281,8 @@ export default function CurrencyInputPanel({
               {onCurrencySelect && <StyledDropDown selected={!!currency} />}
             </Aligner>
           </CurrencySelect>
-          {!hideInput && (
-            <>
-              <NumericalInput
-                className="token-amount-input"
-                value={value}
-                onUserInput={(val) => {
-                  onUserInput(val)
-                }}
-              />
-            </>
-          )}
+          <FiatValue fiatValue={fiatValue} priceImpact={priceImpact} />
         </InputRow>
-        {!hideInput && !hideBalance && (
-          <FiatRow>
-            <RowBetween>
-              {account ? (
-                <RowFixed style={{ height: '17px' }}>
-                  <TYPE.body
-                    onClick={onMax}
-                    color={theme.text2}
-                    fontWeight={400}
-                    fontSize={14}
-                    style={{ display: 'inline', cursor: 'pointer' }}
-                  >
-                    {!hideBalance && !!currency && selectedCurrencyBalance
-                      ? (customBalanceText ?? 'Balance: ') +
-                        formatTokenAmount(selectedCurrencyBalance, 4) +
-                        ' ' +
-                        currency.symbol
-                      : '-'}
-                  </TYPE.body>
-                  {showMaxButton && selectedCurrencyBalance ? (
-                    <StyledBalanceMax onClick={onMax}>(Max)</StyledBalanceMax>
-                  ) : null}
-                </RowFixed>
-              ) : (
-                '-'
-              )}
-              <FiatValue fiatValue={fiatValue} priceImpact={priceImpact} />
-            </RowBetween>
-          </FiatRow>
-        )}
       </Container>
       {onCurrencySelect && (
         <CurrencySearchModal
